@@ -19,12 +19,6 @@ static NSTimeInterval const kMCBounceDuration2      = 0.1;  // Duration of the s
 static NSTimeInterval const kMCDurationLowLimit     = 0.25; // Lowest duration when swiping the cell because we try to simulate velocity
 static NSTimeInterval const kMCDurationHighLimit    = 0.1;  // Highest duration when swiping the cell because we try to simulate velocity
 
-typedef NS_ENUM(NSUInteger, MCSwipeTableViewCellDirection) {
-    MCSwipeTableViewCellDirectionLeft = 0,
-    MCSwipeTableViewCellDirectionCenter,
-    MCSwipeTableViewCellDirectionRight
-};
-
 @interface MCSwipeTableViewCell () <UIGestureRecognizerDelegate>
 
 @property (nonatomic, assign) MCSwipeTableViewCellDirection direction;
@@ -345,6 +339,17 @@ typedef NS_ENUM(NSUInteger, MCSwipeTableViewCellDirection) {
             // We notify the delegate that we just started dragging
             if ([_delegate respondsToSelector:@selector(swipeTableViewCellDidStartSwiping:)]) {
                 [_delegate swipeTableViewCellDidStartSwiping:self];
+            }
+			
+			// Notifiy the directional delegate
+            if ([_delegate respondsToSelector:@selector(swipeTableViewCellDidStartSwiping:inDirection:)]) {
+				MCSwipeTableViewCellDirection dir = MCSwipeTableViewCellDirectionCenter;
+				if (point.x < 0)
+					dir = MCSwipeTableViewCellDirectionLeft;
+				else if (point.x > 0)
+					dir = MCSwipeTableViewCellDirectionRight;
+				
+				[_delegate swipeTableViewCellDidStartSwiping:self inDirection:dir];
             }
             
             return YES;

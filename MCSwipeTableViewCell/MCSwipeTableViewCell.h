@@ -41,6 +41,13 @@ typedef NS_ENUM(NSUInteger, MCSwipeTableViewCellMode) {
     MCSwipeTableViewCellModeSwitch
 };
 
+/** Describes the direction being swiped */
+typedef NS_ENUM(NSUInteger, MCSwipeTableViewCellDirection) {
+    MCSwipeTableViewCellDirectionLeft = 0,
+    MCSwipeTableViewCellDirectionCenter,
+    MCSwipeTableViewCellDirectionRight
+};
+
 /**
  *  `MCSwipeCompletionBlock`
  *
@@ -187,6 +194,14 @@ typedef void (^MCSwipeCompletionBlock)(MCSwipeTableViewCell *cell, MCSwipeTableV
  *  @param cell `MCSwipeTableViewCell` currently swiped.
  */
 - (void)swipeTableViewCellDidStartSwiping:(MCSwipeTableViewCell *)cell;
+
+/**
+ *  Called when the user starts swiping the cell.
+ *  
+ *  @param cell `MCSwipeTableViewCell` currently swiped.
+ *  @param direction `MCSwipeTableViewCellDirection` currently swiped.
+ */
+- (void)swipeTableViewCellDidStartSwiping:(MCSwipeTableViewCell *)cell inDirection:(MCSwipeTableViewCellDirection)direction;
 
 /**
  *  Called when the user ends swiping the cell.
